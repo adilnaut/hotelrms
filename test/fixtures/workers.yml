@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Ssn: 1
+  First: MyString
+  Last: MyString
+  Salary: 1
+
+two:
+  Ssn: 1
+  First: MyString
+  Last: MyString
+  Salary: 1

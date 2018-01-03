@@ -1,0 +1,16 @@
+
+  <div class="row" style=" " >
+  <div class="col-6 col-md-1"></div>
+  <div class="col-6 col-md-10">
+<ul class="list-group">
+  <% @users.each do |user| %>
+    <%= link_to user["login"], '/user/show/?login='+user["login"] %>
+    <hr>
+  <% end %>
+</ul>
+
+
+</div>
+<div class="col-6 col-md-1"></div>
+</div>
+</div>

@@ -1,0 +1,38 @@
+<div style="background-image: url('http://skdev.kz/upload/medialibrary/558/558aaf10ee69babf049a7403cdb0a74f.png'); height: 300px; background-size: 100%; margin-top:-20px; padding-top: 0px;" >
+
+  <div class="row" style="margin-top:255px; position: absolute;" >
+  <div class="col-6 col-md-1"></div>
+  <div class="col-6 col-md-9">
+    <div class="panel panel-default" style="height:100px; width:160%; background: #fff; border-radius: 10px; box-shadow: 0px 2px #eaeaea;">
+      <%=  form_for :client, class: "form-inline", method: :post do |f| %>
+
+    <div class="col-md-3 col-sm-3 col-lg-3"> <br>
+      <label>First Name</label>
+      <%= f.text_field :first_n, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3"> <br>
+      <label>Last Name</label>
+      <%= f.text_field :last_n, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3"> <br>
+      <label>National_id</label>
+      <%= f.text_field :national_id, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3"> <br>
+<br>
+      <%= f.submit "Create", class: "btn btn-primary", style: "width: 100%;" %>
+    </div>
+    <% end %>
+
+
+</div>
+
+</div>
+<div class="col-6 col-md-1"></div>
+
+</div>
+
+</div>

@@ -1,0 +1,59 @@
+<%=  form_for :appl, method: :post do |f| %>
+  <div class="row">
+    <div class="col-md-1">
+      Date From:
+    </div>
+    <div class="col-md-6">
+      <%= date_field(:appl, :from_d) %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      Date To:
+    </div>
+    <div class="col-md-6">
+      <%= date_field(:appl, :to_d) %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      Price:
+    </div>
+    <div class="col-md-6">
+      <%= f.text_field :price %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      Number of beds:
+    </div>
+    <div class="col-md-6">
+      <%= f.text_field :num_of_beds %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      Client National ID:
+    </div>
+    <div class="col-md-6">
+      <%= f.text_field :national_id %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      Client First Name:
+    </div>
+    <div class="col-md-6">
+      <%= f.text_field :first_n %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      Client Second Name:
+    </div>
+    <div class="col-md-6">
+      <%= f.text_field :last_n %>
+    </div>
+  </div>
+  <%= f.submit "New Application" %>
+<% end %>

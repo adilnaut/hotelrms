@@ -1,0 +1,33 @@
+<div style="background-image: url('http://skdev.kz/upload/medialibrary/558/558aaf10ee69babf049a7403cdb0a74f.png'); height: 300px; background-size: 100%; margin-top:-20px; padding-top: 0px;" >
+
+  <div class="row" style="margin-top:255px; position: absolute;" >
+  <div class="col-6 col-md-1"></div>
+  <div class="col-6 col-md-9">
+    <div class="panel panel-default" style="height:100px; width:250%; background: #fff; border-radius: 10px; box-shadow: 0px 2px #eaeaea;">
+      <%=  form_for :session, url: 'new', class: "form-inline", method: :post do |f| %>
+
+    <div class="col-md-4 col-sm-4 col-lg-4"><br>
+      <label> Login </label>
+      <%= f.text_field :login, class: "form-control" %>
+    </div>
+
+    <div class="col-md-4"><br>
+      <label>Password</label>
+      <%= f.password_field :password, class: "form-control" %>
+    </div>
+
+    <div class="col-md-4"><br>
+<br>
+      <%= f.submit "Sign in", class: "btn btn-primary", style: "width: 100%;" %>
+    </div>
+    <% end %>
+
+
+</div>
+
+</div>
+<div class="col-6 col-md-1"></div>
+
+</div>
+
+</div>

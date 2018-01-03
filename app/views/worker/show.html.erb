@@ -1,0 +1,253 @@
+<div class="row" >
+<div class="col-6 col-md-1"></div>
+<div class="col-6 col-md-10">
+
+<div class="row">
+  <div class="form-group col-md-2">
+    <label>First Name </label> <br>
+    <%= @worker["First_n"]%>
+  </div>
+  <div class="col-md-2">
+    <label>Second Name </label><br>
+    <%= @worker["Second_n"] %>
+  </div>
+  <div class="col-md-2">
+    <label>SSN </label><br>
+    <%= @worker["SSN"] %>
+  </div>
+  <div class="col-md-2">
+    <label>Salary </label><br>
+    <%= @worker["Salary"] %>
+  </div>
+  <div class="col-md-2">
+    <label>Job </label><br>
+    <%= type = get_worker_type_by_ssn @worker["SSN"] %>
+  </div>
+</div>
+<br>
+<div class="row">
+<div class="col-md-12">
+
+
+  <% if type.eql? "Receptionist" %>
+    <label>Managed by</label><br>
+    <%= @his_man["First_n"]+' '+@his_man["Second_n"] %>
+    </div>
+</div>
+<br>
+
+
+
+<!-- tabs -->
+  <ul class="nav nav-tabs" style="margin-top:50px;">
+    <li class="active"><a data-toggle="tab" href="#home">Applications</a></li>
+    <li><a data-toggle="tab" href="#menu1">Add Application</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <table class="table table-bordered table-fixed" >
+         <thead>
+         <tr>
+         <th scope="col"> ID </th>
+         <th scope="col"> From </th>
+         <th scope="col"> To </th>
+         <th scope="col"> Price </th>
+         <th scope="col"> Number of beds</th>
+         <th scope="col"> Manager </th>
+         <th scope="col"> Receptionist </th>
+         <th scope="col"> Client </th>
+         <th scope="col"> Reserved </th>
+       </tr>
+     </thead>
+     <tbody>
+       <%for appl in get_appl_by_RSSN @worker["SSN"] %>
+         <tr>
+
+           <td> <%= appl["id"] %> </td>
+           <td> <%= appl["from_d"] %> </td>
+           <td> <%= appl["to_d"] %> </td>
+           <td> <%= appl["price"] %> </td>
+           <td> <%= appl["num_of_beds"] %>  </td>
+           <td> <%=link_to appl["Worker_Manager_SSN"].to_s, '/worker/show?SSN='+appl["Worker_Manager_SSN"].to_s %> </td>
+           <td> <%=link_to appl["Worker_Receptionist_SSN"].to_s, '/worker/show?SSN='+appl["Worker_Receptionist_SSN"].to_s %></td>
+           <td> <%=link_to appl["Client_national_id"].to_s, '/client/show?national_id='+appl["Client_national_id"].to_s %></td>
+           <td> <%= reserved?(appl["Reservations_id"]) %></td>
+         </tr>
+       <% end %>
+     </tbody>
+    </table>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <!-- application form -->
+
+      <div class="panel panel-default" style="height:100px; width:100%; background: #fff; border-radius: 10px; box-shadow: 0px 2px #eaeaea;">
+          <!-- <form class="form-inline" action="/appl/rnew" accept-charset="UTF-8" method="post"> -->
+          <%=  form_for :appl, url: '/appl/rnew', method: :post do |f| %>
+            <br>
+          <div class="form-group col-lg-2">
+              <label>Name</label>
+              <%= f.text_field :first_n, class: "form-control", style: ";"%>
+              <!-- <input type="email" class="form-control" id="inputEmail" placeholder="Email" style="width:100%;"> -->
+          </div>
+          <div class="form-group col-lg-2">
+              <label>SurName</label>
+                <%= f.text_field :last_n, class: "form-control", style: ";"%>
+              <!-- <input type="email" class="form-control" id="inputEmail" placeholder="Email" style="width:100%;"> -->
+          </div>
+          <div class="form-group col-lg-1">
+              <label>NationalID</label>
+                <%= f.text_field :national_id, class: "form-control", style: "width: 75px; " %>
+              <!-- <input type="password" class="form-control" id="inputPassword" placeholder="Password" style="width:100%;"> -->
+          </div>
+          <div class="form-group col-lg-2">
+              <label>Check-in</label>
+               <!-- <input class="form-control" id="inputEmail" placeholder="Email" style="width: 100%;"> -->
+              <%= date_field(:appl, :from_d)  %>
+          </div>
+           <div class="form-group col-lg-2">
+              <label>Chck-out</label>
+              <%= date_field(:appl, :to_d) %>
+              <!-- <input type="email" class="form-control" id="inputEmail" placeholder="Email" style="width: 100%;"> -->
+          </div>
+          <div class="form-group col-lg-1">
+              <label>Price</label>
+              <%= select_tag(:price, options_for_select( @prices)) %>
+
+              <!-- <input type="text" class="form-control" id="inputEmail" placeholder="Email" style="width: 100%;"> -->
+          </div>
+          <div class="form-group col-lg-1">
+              <label>Guests</label>
+              <%= select_tag(:num_of_beds, options_for_select( @nums)) %>
+
+              <!-- <input type="email" class="form-control" id="inputEmail" placeholder="Email" style="width:100%;"> -->
+          </div>
+          <div class="form-group col-lg-1">
+             <label> </label><br>
+               <%= f.submit "Submit", class: "btn btn-primary", style: "width: 75px; margin-left:-10px;" %>
+              <!-- <button type="submit" class="btn btn-primary" style="width: 100%;">search</button> -->
+          </div>
+          <% end %>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+
+<% if type.eql? "Manager" %>
+
+<!-- tabs -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Receptionists</a></li>
+    <li><a data-toggle="tab" href="#applications">Applications</a></li>
+    <li><a data-toggle="tab" href="#reservations">Reservations</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th scope="col"> First Name </th>
+          <th scope="col"> Second Name </th>
+          <th scope="col"> Worker Page</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%for rec in @his_rec %>
+        <tr>
+         <td> <%= rec["First_n"] %> </td>
+         <td> <%= rec["Second_n"]%> </td>
+         <td> <%= link_to rec["SSN"].to_s, '/worker/show?SSN='+rec["SSN"].to_s %> </td>
+        </tr>
+      <% end %>
+      <tbody>
+      </table>
+    </div>
+    <div id="applications" class="tab-pane fade">
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th scope="col"> ID </th>
+          <th scope="col"> From </th>
+          <th scope="col"> To </th>
+          <th scope="col"> Price </th>
+          <th scope="col"> Number of beds</th>
+          <th scope="col"> Manager </th>
+          <th scope="col"> Receptionist </th>
+          <th scope="col"> Client </th>
+          <th scope="col"> Reservation </th>
+        </tr>
+      </thead>
+      <tbody>
+        <%for appl in get_appl_by_MSSN @worker["SSN"] %>
+          <tr>
+            <td> <%= appl["id"] %> </td>
+            <td> <%= appl["from_d"] %> </td>
+            <td> <%= appl["to_d"] %> </td>
+            <td> <%= appl["price"] %> </td>
+            <td> <%= appl["num_of_beds"] %> </td>
+            <td> <%=link_to appl["Worker_Manager_SSN"].to_s, '/worker/show?SSN='+appl["Worker_Manager_SSN"].to_s %> </td>
+            <td> <%=link_to appl["Worker_Receptionist_SSN"].to_s, '/worker/show?SSN='+appl["Worker_Receptionist_SSN"].to_s %></td>
+            <td> <%=link_to appl["Client_national_id"].to_s, '/client/show?national_id='+appl["Client_national_id"].to_s %></td>
+            <td>
+              <% if (reserved?(appl["Reservations_id"])).eql? "Reserved" %>
+                <%= appl["Reservations_id"] %>
+              <% else %>
+                <%=link_to "Reserve", "/reservation/new?id="+appl["id"].to_s%>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+        </table>
+    </div>
+    <div id="reservations" class="tab-pane fade">
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th scope="col"> ID </th>
+          <th scope="col"> Status </th>
+          <th scope="col"> Manager </th>
+          <th scope="col"> Room_number </th>
+          <th scope="col"> Client </th>
+          <th scope="col"> Check in </th>
+          <th scope="col"> Check out </th>
+        </tr>
+      </thead>
+        <tbody>
+        <%for resr in get_resr_by_MSSN @worker["SSN"] %>
+          <tr>
+            <td> <%= resr["id"] %> </td>
+            <td> <%= resr["status"] %> </td>
+            <td> <%=link_to resr["Worker_Manager_SSN"].to_s, '/worker/show?SSN='+resr["Worker_Manager_SSN"].to_s %> </td>
+            <td> <%= resr["Room_number"] %> </td>
+            <td> <%= link_to resr["Client_national_id"].to_s, '/client/show?national_id='+resr["Client_national_id"].to_s %>  </td>
+            <td> <%= link_to "Check in",  '/reservation/checkin?id='+resr["id"].to_s+'&MSSN='+resr["Worker_Manager_SSN"].to_s %> </td>
+            <td> <%= link_to "Check out",  '/reservation/destroy?id='+resr["id"].to_s+'&MSSN='+resr["Worker_Manager_SSN"].to_s, method: :delete %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+        </table>
+    </div>
+  </div>
+
+  <% end %>
+
+
+
+
+</div>
+
+
+
+<div class="col-6 col-md-1"></div>
+<br>
+
+</div>
+<!-- <%= link_to "Delete this worker", '/worker/destroy/?SSN='+@worker["SSN"].to_s, method: :delete %>  -->

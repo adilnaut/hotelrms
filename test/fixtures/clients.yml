@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  national_id: 1
+  first_n: MyString
+  last_n: MyString
+  payment_type: MyString
+
+two:
+  national_id: 1
+  first_n: MyString
+  last_n: MyString
+  payment_type: MyString
